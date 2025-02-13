@@ -3,9 +3,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const inflater = document.querySelector(".inflater");
 
     // Balloon settings
-    const maxSize = 100; // Max size before flying
-    const inflationStep = 10; // Size increase per click
+    const maxSize = 80; // Max size before flying
+    const inflationStep = 20; // Size increase per click
     const balloons = []; // Array to track all active balloons
+
+    // Array of balloon image paths
+    const balloonImages = [
+        "assets/balloon1.png",
+        "assets/balloon2.png",
+        "assets/balloon3.png",
+        "assets/balloon4.png",
+        "assets/balloon5.png",
+        "assets/balloon6.png",
+        "assets/balloon7.png",
+        "assets/balloon8.png",
+        "assets/balloon9.png",
+        "assets/balloon10.png"
+    ];
+
+    // Index to track the current balloon image
+    let balloonImageIndex = 0;
 
     // Inflater dimensions and position
     const inflaterRect = inflater.getBoundingClientRect();
@@ -17,7 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Function to create a new balloon
     function createBalloon() {
         const balloon = document.createElement("img");
-        balloon.src = "balloon.png";
+
+        // Select the next balloon image in order
+        balloon.src = balloonImages[balloonImageIndex];
+        balloonImageIndex = (balloonImageIndex + 1) % balloonImages.length; // Wrap around after the last image
+
         balloon.alt = "Balloon";
         balloon.classList.add("balloon");
         balloon.style.width = "0px";
@@ -34,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
             velocityX: (Math.random() - 0.5) * 6, // Random horizontal velocity
             velocityY: -3, // Upward velocity
             centerX: window.innerWidth * 0.775, // Initial center X
-            centerY: window.innerHeight * 0.75, // Initial center Y
+            centerY: window.innerHeight * 0.75, // Initial center Y,
         };
 
         // Add balloon to the array

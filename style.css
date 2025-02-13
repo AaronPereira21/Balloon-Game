@@ -1,0 +1,67 @@
+/* Full-page settings */
+html, body {
+    height: 100%;
+    margin: 0;
+    background-image: url('assets/Background.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Inflater container */
+.inflater {
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+    width: 15%;
+    height: 25%;
+}
+
+/* Handle */
+.handle {
+    position: absolute;
+    top: -4%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 50%;
+    cursor: pointer;
+}
+
+/* Main container */
+.container {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    height: 80%;
+}
+
+/* Connector */
+.connector {
+    position: absolute;
+    top: 5%;
+    left: -40%;
+    width: 90%;
+    height: 70%;
+}
+
+/* Balloon */
+.balloon {
+    position: fixed; /* Fixed so it moves across the entire screen */
+    top: 75%; /* Starts at the top of the connector */
+    left: 77.5%; /* Positioned relative to the inflater */
+    transform: translate(-50%, -50%);
+    width: 0px; /* Initially very small */
+    height: 0px;
+    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease; /* Smooth transition for shrinking */
+}
+
+/* Popped Balloon */
+.balloon.popped {
+    width: 0px;
+    height: 0px;
+    opacity: 0; /* Make it disappear */
+    transition: opacity 0.3s ease;
+}

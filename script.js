@@ -23,7 +23,13 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     // Array of alphabet image paths (A-Z)
-    const alphabetImages = Array.from({ length: 26 }, (_, i) => `assets/${String.fromCharCode(65 + i)}.png`);
+    const alphabetImages = ["assets/a.png","assets/b.png","assets/c.png","assets/d.png","assets/e.png",
+                            "assets/f.png","assets/g.png","assets/h.png","assets/i.png","assets/j.png",
+                            "assets/k.png","assets/l.png","assets/m.png","assets/n.png","assets/o.png",
+                            "assets/p.png","assets/q.png","assets/r.png","assets/s.png","assets/t.png",
+                            "assets/u.png","assets/v.png","assets/w.png","assets/x.png","assets/y.png",
+                            "assets/z.png"
+                    ];
 
     // Index to track the current balloon image
     let balloonImageIndex = 0;

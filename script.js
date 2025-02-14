@@ -22,14 +22,14 @@ document.addEventListener("DOMContentLoaded", () => {
         "assets/balloon10.png"
     ];
 
-    // Array of alphabet image paths (A-Z)
+        // Array of alphabet image paths (A-Z)
     const alphabetImages = ["assets/a.png","assets/b.png","assets/c.png","assets/d.png","assets/e.png",
-                            "assets/f.png","assets/g.png","assets/h.png","assets/i.png","assets/j.png",
-                            "assets/k.png","assets/l.png","assets/m.png","assets/n.png","assets/o.png",
-                            "assets/p.png","assets/q.png","assets/r.png","assets/s.png","assets/t.png",
-                            "assets/u.png","assets/v.png","assets/w.png","assets/x.png","assets/y.png",
-                            "assets/z.png"
-                    ];
+        "assets/f.png","assets/g.png","assets/h.png","assets/i.png","assets/j.png",
+        "assets/k.png","assets/l.png","assets/m.png","assets/n.png","assets/o.png",
+        "assets/p.png","assets/q.png","assets/r.png","assets/s.png","assets/t.png",
+        "assets/u.png","assets/v.png","assets/w.png","assets/x.png","assets/y.png",
+        "assets/z.png"
+];
 
     // Index to track the current balloon image
     let balloonImageIndex = 0;
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
         balloonData.element.classList.add("popped");
         setTimeout(() => {
             balloonData.element.remove();
-            // Remove the balloon from the array
+            // Remove the balloon from the array immediately
             const index = balloons.indexOf(balloonData);
             if (index !== -1) balloons.splice(index, 1);
 
@@ -190,9 +190,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 balloonData.velocityY = -Math.abs(balloonData.velocityY);
             }
 
-            // Collision detection with other balloons
+            // Collision detection with other balloons (only flying balloons)
             for (const otherBalloon of balloons) {
-                if (otherBalloon !== balloonData && otherBalloon.isFlying) {
+                if (
+                    otherBalloon !== balloonData &&
+                    otherBalloon.isFlying &&
+                    !otherBalloon.element.classList.contains("popped") // Skip popped balloons
+                ) {
                     const otherRect = otherBalloon.element.getBoundingClientRect();
                     const distanceX = balloonData.centerX - otherBalloon.centerX;
                     const distanceY = balloonData.centerY - otherBalloon.centerY;
@@ -252,3 +256,25 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add click event to the "Pop All Balloons" button
     popAllButton.addEventListener("click", popAllBalloons);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

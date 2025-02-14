@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const handle = document.getElementById("handle");
     const inflater = document.querySelector(".inflater");
+    const popAllButton = document.getElementById("popAllButton");
 
     // Balloon settings
     const maxSize = 80; // Max size before flying
@@ -21,8 +22,14 @@ document.addEventListener("DOMContentLoaded", () => {
         "assets/balloon10.png"
     ];
 
+    // Array of alphabet image paths (A-Z)
+    const alphabetImages = Array.from({ length: 26 }, (_, i) => `assets/${String.fromCharCode(65 + i)}.png`);
+
     // Index to track the current balloon image
     let balloonImageIndex = 0;
+
+    // Index to track the current alphabet image
+    let alphabetImageIndex = 0;
 
     // Inflater dimensions and position
     const inflaterRect = inflater.getBoundingClientRect();
@@ -33,23 +40,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Function to create a new balloon
     function createBalloon() {
-        const balloon = document.createElement("img");
+        const balloon = document.createElement("div");
+        balloon.classList.add("balloon");
 
-        // Select the next balloon image in order
-        balloon.src = balloonImages[balloonImageIndex];
+        // Set balloon background image
+        balloon.style.backgroundImage = `url('${balloonImages[balloonImageIndex]}')`;
         balloonImageIndex = (balloonImageIndex + 1) % balloonImages.length; // Wrap around after the last image
 
-        balloon.alt = "Balloon";
-        balloon.classList.add("balloon");
+        // Set initial size
         balloon.style.width = "0px";
         balloon.style.height = "0px";
         balloon.style.left = "77.5%";
         balloon.style.top = "75%";
         inflater.appendChild(balloon);
 
+        // Create and append alphabet image
+        const alphabet = document.createElement("img");
+        alphabet.src = alphabetImages[alphabetImageIndex];
+        alphabetImageIndex = (alphabetImageIndex + 1) % alphabetImages.length; // Wrap around after the last alphabet
+        alphabet.classList.add("alphabet");
+        balloon.appendChild(alphabet);
+
         // Initialize balloon properties
         const balloonData = {
             element: balloon,
+            alphabetElement: alphabet,
             size: 0, // Start from zero
             isFlying: false,
             velocityX: (Math.random() - 0.5) * 6, // Random horizontal velocity
@@ -63,16 +78,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Add click event to pop the balloon
         balloon.addEventListener("click", () => {
-            balloon.classList.add("popped");
-            setTimeout(() => {
-                balloon.remove();
-                // Remove the balloon from the array
-                const index = balloons.indexOf(balloonData);
-                if (index !== -1) balloons.splice(index, 1);
-            }, 300);
+            popBalloon(balloonData);
         });
 
+        // Update button visibility
+        updatePopAllButtonVisibility();
+
         return balloonData;
+    }
+
+    // Function to pop a single balloon
+    function popBalloon(balloonData) {
+        balloonData.element.classList.add("popped");
+        setTimeout(() => {
+            balloonData.element.remove();
+            // Remove the balloon from the array
+            const index = balloons.indexOf(balloonData);
+            if (index !== -1) balloons.splice(index, 1);
+
+            // Update button visibility
+            updatePopAllButtonVisibility();
+        }, 300);
+    }
+
+    // Function to pop all balloons
+    function popAllBalloons() {
+        balloons.forEach((balloonData) => {
+            popBalloon(balloonData);
+        });
+    }
+
+    // Function to update the visibility of the "Pop All Balloons" button
+    function updatePopAllButtonVisibility() {
+        if (balloons.length > 5) {
+            popAllButton.style.display = "block";
+        } else {
+            popAllButton.style.display = "none";
+        }
     }
 
     // Inflate balloon when handle is clicked
@@ -96,6 +138,11 @@ document.addEventListener("DOMContentLoaded", () => {
             activeBalloon.size += inflationStep;
             activeBalloon.element.style.width = `${activeBalloon.size}px`;
             activeBalloon.element.style.height = `${activeBalloon.size * 1.6}px`;
+
+            // Update alphabet size proportionally
+            const alphabetSize = activeBalloon.size * 0.5; // Alphabet size is 50% of the balloon size
+            activeBalloon.alphabetElement.style.width = `${alphabetSize}px`;
+            activeBalloon.alphabetElement.style.height = `${alphabetSize}px`;
 
             // If the balloon reaches max size, start flying
             if (activeBalloon.size >= maxSize) {
@@ -185,8 +232,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // Update the balloon's position
-            balloon.style.left = `${balloonData.centerX}px`;
-            balloon.style.top = `${balloonData.centerY}px`;
+            balloon.style.left = `${balloonData.centerX - halfWidth}px`;
+            balloon.style.top = `${balloonData.centerY - halfHeight}px`;
 
             // Continue the animation if the balloon is still flying
             if (balloonData.isFlying) {
@@ -195,4 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         update();
     }
+
+    // Add click event to the "Pop All Balloons" button
+    popAllButton.addEventListener("click", popAllBalloons);
 });

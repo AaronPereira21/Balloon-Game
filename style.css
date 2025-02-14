@@ -55,7 +55,20 @@ html, body {
     transform: translate(-50%, -50%);
     width: 0px; /* Initially very small */
     height: 0px;
+    background-size: contain; /* Ensure the balloon image fits inside the div */
+    background-position: center; /* Center the balloon image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease; /* Smooth transition for shrinking */
+}
+
+/* Alphabet inside the balloon */
+.alphabet {
+    width: 0px;
+    height: 0px;
+    transition: width 0.3s ease, height 0.3s ease; /* Smooth transition for resizing */
 }
 
 /* Popped Balloon */
@@ -64,4 +77,25 @@ html, body {
     height: 0px;
     opacity: 0; /* Make it disappear */
     transition: opacity 0.3s ease;
+}
+
+/* Pop All Balloons Button */
+.pop-all-button {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4d77ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: none; /* Hidden by default */
+    z-index: 1000; /* Ensure it's above other elements */
+}
+
+.pop-all-button:hover {
+    background-color: #16dbe1;
 }
